@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TaskManagementAPI.Data;
+using TaskManagementAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskManagementAPI")));
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
-﻿namespace TaskManagementAPI.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TaskManagementAPI.Models;
 
 public class User
 {
@@ -8,5 +10,6 @@ public class User
     public string Password { get; set; }
     public DateTime CreatedAt {get; set;}
     
+    [JsonIgnore]
     public ICollection<TaskItem> Tasks { get; set; } =  new List<TaskItem>();
 }
