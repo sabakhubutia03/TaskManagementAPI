@@ -1,4 +1,6 @@
-﻿namespace TaskManagementAPI.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TaskManagementAPI.Models;
 
 public class TaskItem
 {
@@ -9,5 +11,6 @@ public class TaskItem
     public DateTime CreatedAt { get; set; }
     
     public int UserId { get; set; }
-    public User User { get; set; }
+    [JsonIgnore]
+    public User? User { get; set; }
 }

@@ -42,6 +42,9 @@ public class UserService : IUserService
             _logger.LogWarning("Password is null or empty");
             throw new Exception("Password is empty");
         } 
+        if(user.CreatedAt == default)
+            user.CreatedAt = DateTime.UtcNow;
+        
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         return user;

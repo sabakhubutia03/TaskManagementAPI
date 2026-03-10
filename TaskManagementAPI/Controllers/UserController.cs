@@ -20,15 +20,39 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
         var createdUser = await _userService.CreateUser(user);
-          _logger.LogInformation("User created:{createdUser.Id}" , createdUser.Id);
-        return Ok(createdUser);
+          _logger.LogInformation("User created:{UserId}" , createdUser.Id);
+        return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
     }
 
     [HttpGet]
-    public async Task<IEnumerable<User>> GetAllUsers()
+    public async Task<ActionResult> GetAllUsers()
     {
         var getAllUsers = await _userService.GetAllUsers();
         _logger.LogInformation("Get all users");
-        return getAllUsers;
+        return Ok(getAllUsers);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetUser(int id)
+    {
+        var getById = await _userService.GetUserById(id);
+        _logger.LogInformation("Get user with id:{UserId}", id);
+        return Ok(getById);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+    {
+        var update = await _userService.UpdateUser(id, user);
+        _logger.LogInformation("Update user with id:{id}", id);
+        return Ok(update);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        await _userService.DeleteUser(id);
+        _logger.LogInformation("Delete user with id:{id}", id);
+        return NoContent();
     }
 }
