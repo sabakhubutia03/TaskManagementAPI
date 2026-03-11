@@ -1,5 +1,5 @@
 # 🚀 TaskManagementAPI
-TaskManagementAPI is a modern .NET 8 Web API designed for efficient management of users and their associated tasks. This project emphasizes clean code principles, robust architecture, and professional error-handling standards.
+TaskManagementAPI is a modern .NET 9 Web API designed for efficient management of users and their associated tasks. This project emphasizes clean code principles, robust architecture, and professional error-handling standards.
 
 ## 🏗 Architecture & Design Patterns
 Clean Architecture: Implements a clear separation of concerns by decoupling the API layer from business logic and data access to ensure long-term maintainability.
