@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagementAPI.Data;
+using Microsoft.Extensions.Logging;
+using TaskManagementAPI.Application.Interfaces;
+using TaskManagementAPI.Infrastructure.Data;
+using TaskManagementAPI.Domain.Entities;
 using TaskManagementAPI.Exceptions;
-using TaskManagementAPI.Models;
 
-namespace TaskManagementAPI.Services;
+namespace TaskManagementAPI.Application.Services;
 
 public class UserService : IUserService
 { 

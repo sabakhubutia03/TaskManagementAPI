@@ -1,6 +1,5 @@
-﻿using TaskManagementAPI.Models;
-
-namespace TaskManagementAPI.Services;
+﻿using TaskManagementAPI.Domain.Entities;
+namespace TaskManagementAPI.Application.Interfaces;
 
 public interface IUserService
 {

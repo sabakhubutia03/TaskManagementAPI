@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagementAPI.Data;
+using Microsoft.Extensions.Logging;
+using TaskManagementAPI.Application.Interfaces;
+using TaskManagementAPI.Domain.Entities;
 using TaskManagementAPI.Exceptions;
-using TaskManagementAPI.Models;
-
-namespace TaskManagementAPI.Services;
+using TaskManagementAPI.Infrastructure.Data;
 
 public class TaskService : ITaskService
 { 

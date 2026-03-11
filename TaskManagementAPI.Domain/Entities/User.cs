@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TaskManagementAPI.Models;
-
+namespace TaskManagementAPI.Domain.Entities;
 public class User
 {
     public int Id { get; set; }

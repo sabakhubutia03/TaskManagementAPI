@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManagementAPI.Models;
-using TaskManagementAPI.Services;
+using TaskManagementAPI.Application.Interfaces; 
+using TaskManagementAPI.Domain.Entities;
 
 namespace TaskManagementAPI.Controllers;
 [ApiController]

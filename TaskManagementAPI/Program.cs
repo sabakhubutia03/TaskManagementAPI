@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using TaskManagementAPI.Data;
+using TaskManagementAPI.Application.Interfaces;
+using TaskManagementAPI.Application.Services;
+using TaskManagementAPI.Infrastructure.Data;
 using TaskManagementAPI.Middleware;
-using TaskManagementAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

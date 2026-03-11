@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-
-namespace TaskManagementAPI.Models;
+namespace TaskManagementAPI.Domain.Entities;
 
 public class TaskItem
 {
