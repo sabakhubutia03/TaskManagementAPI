@@ -17,7 +17,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
+    public async Task<ActionResult> CreateUser([FromBody] User user)
     {
         var createdUser = await _userService.CreateUser(user);
           _logger.LogInformation("User created:{UserId}" , createdUser.Id);
@@ -41,7 +41,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+    public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
     {
         var update = await _userService.UpdateUser(id, user);
         _logger.LogInformation("Update user with id:{id}", id);
@@ -49,7 +49,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(int id)
+    public async Task<ActionResult> DeleteUser(int id)
     {
         await _userService.DeleteUser(id);
         _logger.LogInformation("Delete user with id:{id}", id);

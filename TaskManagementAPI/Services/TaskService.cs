@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagementAPI.Data;
+using TaskManagementAPI.Exceptions;
 using TaskManagementAPI.Models;
 
 namespace TaskManagementAPI.Services;
@@ -25,7 +26,12 @@ public class TaskService : ITaskService
         if (task == null)
         {
             _logger.LogWarning("No task found with id {id}", id);
-            throw new KeyNotFoundException($"No task found with id {id}");
+            throw new ApiException(
+                "No task found with id",
+                "NotFound",
+                404,
+                "Task id not found",
+                "/api/Task/GetTaskById");
         }
         return task;
     }
@@ -36,18 +42,36 @@ public class TaskService : ITaskService
         if (user == null)
         {
             _logger.LogWarning("No user found with id {userId}", task.UserId);
-            throw new KeyNotFoundException($"User with id {task.UserId} does not exist");
+            throw new ApiException(
+                "User does not exist",
+                "NotFound",
+                404,
+                $"User with id {task.UserId} not found",
+                "/api/Task/CreateTask"
+            );
         }
         if (string.IsNullOrEmpty(task.Title))
         {
             _logger.LogWarning("Title is null or empty");
-            throw new ArgumentException("Title is empty", nameof(task.Title));
+            throw new ApiException(
+                "Title is null or empty",
+                "Conflict",
+                409,
+                "Title conflict",
+                "/api/User/CreateTask"
+            );
         }
 
         if (string.IsNullOrEmpty(task.Description))
         {
             _logger.LogWarning("Description is null or empty");
-            throw new ArgumentException("Description is empty", nameof(task.Description));
+            throw new ApiException(
+                "Description is null or empty",
+                "Conflict",
+                409,
+                "Description conflict",
+                "/api/User/CreateTask"
+            );
         }
         
         if(task.CreatedAt == default)
@@ -64,7 +88,13 @@ public class TaskService : ITaskService
         if (updateTask == null)
         {
             _logger.LogError("No task found with id {id}", id);
-            throw new KeyNotFoundException("No task found with id {id}");
+            throw new ApiException(
+                $"No task found with id {id}",
+                "NotFound",
+                404,
+                "Task id not found",
+                "/api/Task/UpdateTask"
+            );
         }
         
         if(!string.IsNullOrEmpty(task.Title))
@@ -80,6 +110,17 @@ public class TaskService : ITaskService
 
     public async Task<bool> DeleteTask(int id)
     {
+        if (id <= 0)
+        {
+            _logger.LogWarning("No task found with id {id}", id);
+            throw new ApiException(
+                $"Task with id {id} not found",
+                "NotFound",
+                404,
+                "Task id not found",
+                "/api/Task/DeleteTask"
+            );
+        }
         var delerteTas = await _db.TaskItems.FindAsync(id);
         if (delerteTas == null)
         {
@@ -93,13 +134,25 @@ public class TaskService : ITaskService
 
     public async Task<IEnumerable<TaskItem>> GetTasksByUserId(int userId)
     {
-        var getTasksByUserId = await _db.TaskItems.
-            Where(i => i.UserId == userId)
+      
+        var user = await _db.Users.FindAsync(userId);
+        if (user == null)
+        {
+            _logger.LogWarning("No user found with id {UserId}", userId);
+            throw new ApiException(
+                "User does not exist",
+                "NotFound",
+                404,
+                $"User with id {userId} not found",
+                "/api/Task/GetTasksByUserId"
+            );
+        }
+        var tasks = await _db.TaskItems
+            .Where(t => t.UserId == userId)
             .ToListAsync();
-        
-        _logger.LogInformation("Retrieved tasks for user {UserId}", userId);
-        
-        return getTasksByUserId;
-        
+
+        _logger.LogInformation("Retrieved {Count} tasks for user {UserId}", tasks.Count, userId);
+
+        return tasks;
     }
 }

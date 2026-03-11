@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TaskManagementAPI.Data;
+using TaskManagementAPI.Middleware;
 using TaskManagementAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

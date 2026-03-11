@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagementAPI.Data;
+using TaskManagementAPI.Exceptions;
 using TaskManagementAPI.Models;
 
 namespace TaskManagementAPI.Services;
@@ -24,7 +25,12 @@ public class UserService : IUserService
         if (GetById == null)
         {
             _logger.LogError("User with id {id} id not found" , id);
-            throw new KeyNotFoundException($"User with id {id} not found");
+            throw new ApiException(
+                "Not found user",
+                "NotFound",
+                404,
+                $"User with id {id} id not found",
+                "/api/user/GetUserById");
         }
         return GetById;
     }
@@ -34,13 +40,25 @@ public class UserService : IUserService
         if (string.IsNullOrEmpty(user.Email))
         {
             _logger.LogWarning("Email is null or empty");
-            throw new ArgumentException("Email is empty", nameof(user.Email));
+            throw new ApiException(
+                "Email is empty",
+                "Conflict",
+                409,
+                "Email is null or empty",
+                "/api/user/CreateUser"
+            );
         }
 
         if (string.IsNullOrEmpty(user.Password))
         {
             _logger.LogWarning("Password is null or empty");
-            throw new Exception("Password is empty");
+            throw new ApiException(
+                "Password is empty",
+                "Conflict",
+                409,
+                "Password is null or empty",
+                "/api/user/CreateUser"
+            );
         } 
         if(user.CreatedAt == default)
             user.CreatedAt = DateTime.UtcNow;
@@ -56,7 +74,13 @@ public class UserService : IUserService
         if (updateUser == null) 
         {
             _logger.LogError("User with id {id} id not found", id);
-            throw new Exception("User with id {id} id not found");
+            throw new ApiException(
+                "User id not found",
+                "NotFound",
+                404,
+                $"User with id {id} not found",
+                "/api/user/UpdateUser"
+            );
         } 
      
         if(!string.IsNullOrEmpty(user.Username))
