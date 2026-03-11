@@ -15,16 +15,21 @@ Structured Logging: Utilizes ILogger to track application flow and operations, s
 
 Model Validation: Employs Data Annotations and custom validation logic to enforce strict rules on incoming requests, ensuring data integrity.
 
+## 🏛 Project Architecture: Clean Architecture
+
+This project is built using **Clean Architecture** principles to ensure separation of concerns, scalability, and maintainability. The solution is divided into four main layers:
+
+* **Domain**: Contains core entities (User, TaskItem) and custom exceptions. This layer has no dependencies on other layers.
+* **Application**: Defines interfaces (IUserService, ITaskService) and contains the business logic (Services).
+* **Infrastructure**: Handles data access, Entity Framework Core configuration (DbContext), and database migrations.
+* **API (TaskManagementAPI)**: The entry point of the application, containing controllers and middleware.
 
 ## 🛠 Tech Stack
 
-Backend: .NET 8 / ASP.NET Core Web API
-
-Database: SQL Server
-
-ORM: Entity Framework Core
-
-API Documentation: Swagger / OpenAPI
+* **Backend**: .NET 9 (ASP.NET Core)
+* **Database**: Microsoft SQL Server
+* **ORM**: Entity Framework Core
+* **Tools**: JetBrains Rider, Postman, Git
 
 
 ## 🚀 Getting Started
