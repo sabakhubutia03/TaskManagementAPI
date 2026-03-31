@@ -1,0 +1,42 @@
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TaskManagementAPI.Application.Interfaces;
+using TaskManagementAPI.Infrastructure.Data;
+using TaskManagementAPI.Infrastructure.Service;
+using TaskManagementAPI.Middleware;
+
+var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TaskManagementAPI")));
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
